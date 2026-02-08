@@ -1,65 +1,103 @@
-import Image from "next/image";
+import { Hero } from "@/components/sections/Hero";
+import { ServicesSnapshot } from "@/components/sections/ServicesSnapshot";
+import { Results } from "@/components/sections/Results";
+import { Testimonials } from "@/components/sections/Testimonials";
+import { CTA } from "@/components/sections/CTA";
+import { FAQItem } from "@/components/ui/FAQItem";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
-export default function Home() {
+const faqs = [
+  {
+    question: "What social media platforms do you manage?",
+    answer:
+      "We manage all major platforms including Instagram, TikTok, LinkedIn, X (Twitter), Facebook, YouTube, and Pinterest. We recommend a platform strategy based on your target audience and business goals — you don't need to be everywhere, just where your audience is.",
+  },
+  {
+    question: "How long does it take to see results?",
+    answer:
+      "Most clients see measurable improvements in engagement within the first 30 days. Significant follower growth and lead generation typically ramp up by months 2-3. Paid campaigns can deliver results within the first week. We set clear benchmarks so you always know where you stand.",
+  },
+  {
+    question: "Do you create all the content?",
+    answer:
+      "Yes. Our team handles everything from strategy and scripting to design, filming, and editing. We create platform-native content — meaning each piece is optimized for the specific platform it's published on, not just resized and reposted.",
+  },
+  {
+    question: "What's your pricing model?",
+    answer:
+      "We offer monthly retainer packages based on the scope of services you need. Packages typically start at $2,000/month for single-platform management and scale up for full-service, multi-platform strategies. Book a free strategy call and we'll build a custom quote.",
+  },
+  {
+    question: "How is SoftwarePros different from other agencies?",
+    answer:
+      "We're operators, not just marketers. Our team has built and scaled brands from zero — so we understand the business outcomes behind every post, ad, and campaign. We focus on metrics that matter: leads, revenue, and ROI — not just vanity metrics.",
+  },
+];
+
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      <Hero />
+      <ServicesSnapshot />
+      <Results />
+      <Testimonials />
+
+      {/* FAQ Section */}
+      <section className="py-20 md:py-32 bg-surface">
+        <div className="max-w-3xl mx-auto px-4 md:px-6">
+          <SectionHeading
+            title="Frequently asked questions"
+            subtitle="Quick answers to the questions we hear most."
+          />
+          <div className="space-y-3">
+            {faqs.map((faq, i) => (
+              <FAQItem key={i} {...faq} delay={i + 1} />
+            ))}
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </section>
+
+      <CTA />
+
+      {/* Organization Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "SoftwarePros",
+            description:
+              "Social media marketing and digital growth agency helping brands grow through strategic content, paid advertising, and data-driven strategies.",
+            url: "https://softwarepros.org",
+            sameAs: [],
+            contactPoint: {
+              "@type": "ContactPoint",
+              contactType: "sales",
+              email: "hello@softwarepros.org",
+            },
+          }),
+        }}
+      />
+
+      {/* FAQ Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqs.map((faq) => ({
+              "@type": "Question",
+              name: faq.question,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: faq.answer,
+              },
+            })),
+          }),
+        }}
+      />
+    </>
   );
 }
