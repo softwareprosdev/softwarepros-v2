@@ -6,14 +6,15 @@ interface BlogCardProps {
   category: string;
   date: string;
   readTime: string;
-  slug?: string;
+  slug: string;
   delay?: number;
 }
 
-export function BlogCard({ title, excerpt, category, date, readTime, slug = "#", delay = 0 }: BlogCardProps) {
+export function BlogCard({ title, excerpt, category, date, readTime, slug, delay = 0 }: BlogCardProps) {
   return (
-    <div
-      className="bg-surface border border-border rounded-2xl p-6 md:p-8 card-hover animate-fade-in-up group"
+    <Link
+      href={`/blog/${slug}`}
+      className="bg-surface border border-border rounded-2xl p-6 md:p-8 card-hover animate-fade-in-up group block"
       style={{ animationDelay: `${delay * 0.1}s` }}
     >
       <span className="inline-block px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-semibold uppercase tracking-wider mb-4">
@@ -27,6 +28,6 @@ export function BlogCard({ title, excerpt, category, date, readTime, slug = "#",
         <span>{date}</span>
         <span>{readTime}</span>
       </div>
-    </div>
+    </Link>
   );
 }
