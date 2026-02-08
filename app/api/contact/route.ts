@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     }
 
     await resend.emails.send({
-      from: "SoftwarePros Contact <onboarding@resend.dev>",
+      from: "SoftwarePros Contact <contact@mail.softwarepros.org>",
       to: "softwarepros@icloud.com",
       replyTo: email,
       subject: `New inquiry from ${name}${company ? ` (${company})` : ""}`,
