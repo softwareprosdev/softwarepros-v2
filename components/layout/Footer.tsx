@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const footerLinks = {
   Services: [
@@ -28,8 +29,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {/* Brand column */}
           <div>
-            <Link href="/" className="text-xl font-bold text-text-primary tracking-tight">
-              Software<span className="text-primary">Pros</span>
+            <Link href="/" className="flex items-center">
+              <Image src="/logo.svg" alt="SoftwarePros" width={150} height={34} />
             </Link>
             <p className="mt-4 text-text-secondary text-sm leading-relaxed">
               We help brands grow through strategic social media marketing and data-driven digital growth strategies.

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 
 const navLinks = [
@@ -19,8 +20,8 @@ export function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-border">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <Link href="/" className="text-xl font-bold text-text-primary tracking-tight">
-            Software<span className="text-primary">Pros</span>
+          <Link href="/" className="flex items-center">
+            <Image src="/logo.svg" alt="SoftwarePros" width={150} height={34} priority />
           </Link>
 
           {/* Desktop nav */}

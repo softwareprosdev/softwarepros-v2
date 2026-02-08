@@ -4,14 +4,43 @@ import { useState } from "react";
 import { Button } from "./Button";
 
 export function ContactForm() {
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSubmitted(true);
+    setStatus("sending");
+    setErrorMsg("");
+
+    const form = e.currentTarget;
+    const data = {
+      name: (form.elements.namedItem("name") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      company: (form.elements.namedItem("company") as HTMLInputElement).value,
+      budget: (form.elements.namedItem("budget") as HTMLSelectElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+    };
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const body = await res.json();
+        throw new Error(body.error || "Something went wrong.");
+      }
+
+      setStatus("success");
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "Failed to send. Please try again.");
+      setStatus("error");
+    }
   }
 
-  if (submitted) {
+  if (status === "success") {
     return (
       <div className="bg-surface border border-border rounded-2xl p-8 md:p-12 text-center animate-scale-in">
         <div className="text-4xl mb-4">✓</div>
@@ -74,10 +103,10 @@ export function ContactForm() {
           className="w-full px-4 py-3 bg-background border border-border rounded-xl text-text-primary focus:outline-none focus:border-primary transition-colors"
         >
           <option value="">Select a range</option>
-          <option value="2k-5k">$2,000 – $5,000</option>
-          <option value="5k-10k">$5,000 – $10,000</option>
-          <option value="10k-25k">$10,000 – $25,000</option>
-          <option value="25k+">$25,000+</option>
+          <option value="$2,000 – $5,000">$2,000 – $5,000</option>
+          <option value="$5,000 – $10,000">$5,000 – $10,000</option>
+          <option value="$10,000 – $25,000">$10,000 – $25,000</option>
+          <option value="$25,000+">$25,000+</option>
         </select>
       </div>
 
@@ -95,8 +124,12 @@ export function ContactForm() {
         />
       </div>
 
+      {status === "error" && (
+        <p className="text-red-400 text-sm">{errorMsg}</p>
+      )}
+
       <Button type="submit" variant="primary" size="lg" className="w-full">
-        Send Message
+        {status === "sending" ? "Sending..." : "Send Message"}
       </Button>
     </form>
   );
